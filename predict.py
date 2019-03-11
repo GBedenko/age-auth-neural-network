@@ -27,5 +27,12 @@ def predict_age(model_dir, image_path):
 
 
 if __name__ == "__main__":
-    predict_age('var/cnn-model/serving/1551650924/', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
+
+    parser = ArgumentParser(add_help=True)
+    parser.add_argument('--model-dir', required=True)
+    parser.add_argument('--image-path', required=True)
+
+    args = parser.parse_args()
+
+    print(predict_age(args.model_dir, args.image_path))
 
