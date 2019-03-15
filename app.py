@@ -15,7 +15,7 @@ app = Flask(__name__)
 @app.route("/determine_age")
 def determine_age():
 
-    predicted_age = predict.predict_age('var/cnn-model/serving/1552573155/', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
+    predicted_age = predict.predict_age('var/cnn-model/serving/1552684475/', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
 
     # Save scan result as a dictionary
     age_data = {"predicted_age": predicted_age}
