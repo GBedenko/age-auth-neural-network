@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 import tensorflow as tf
 from tensorflow.contrib import predictor
 
-# Import scipy to convert input image to array
+# Import imageio to convert input image to array
 import imageio
 
 def predict_age(model_dir, image_path):
