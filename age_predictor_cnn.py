@@ -6,6 +6,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
+import imageio
 
 from AgeDataset import AgeDataset
 from AgeCNN import AgeCNN
@@ -104,6 +105,41 @@ def test():
         test_loss, correct, len(testing_data_loader.dataset),
         100. * correct / len(testing_data_loader.dataset)))
 
-for epoch in range(1, 10):
-    train(epoch)
-    test()
+# for epoch in range(1):
+#     train(epoch)
+#     test()
+
+# torch.save(model.state_dict(), 'model')
+
+def predict(file_path):
+
+    # Create instance of the model
+    model = AgeCNN()
+
+    # Load instance with latest saved model
+    model.load_state_dict(torch.load('model'))
+    
+    # Put model in testing mode since we are making a prediction
+    model.eval()
+
+    # Load the image from the input path
+    image = imageio.imread(file_path)
+
+    # Convert image to pytorch tensor object
+    new_tensor = torch.tensor(image)
+
+    # Model requires a 4d array (as first one is usually batch size), so unsqueeze adds another of size 1
+    new_tensor = new_tensor.unsqueeze(0)
+
+    # Input the image through the model
+    output = model(new_tensor)
+
+    # Retrieve in the index of the highest value in the output layer of the model, which is our resulting age
+    pred = output.data.max(1, keepdim=True)[1]
+    
+    # Return only the integer indexed
+    return(pred[0][0].item())
+
+prediction_on_56_yr_old = predict('./images/00/nm0000100_rm1001569280_1955-1-6_2011.jpg')
+
+print(prediction_on_56_yr_old)
