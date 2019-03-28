@@ -7,8 +7,8 @@ from argparse import ArgumentParser
 import tensorflow as tf
 from tensorflow.contrib import predictor
 
-# Import imageio to convert input image to array
-import imageio
+# Import scipy to convert input image to array
+from scipy.misc import imread
 
 def predict_age(model_dir, image_path):
     """Function which takes the directory of the CNN model and an image as input
@@ -19,7 +19,7 @@ def predict_age(model_dir, image_path):
     prediction_fn = predictor.from_saved_model(export_dir=model_dir, signature_def_key='serving_default')
 
     # Read input image as an array using scipy
-    image = imageio.imread(image_path)
+    image = imread(image_path)
 
     # Use the tensorflow function created from the cnn model with the input image
     output = prediction_fn({

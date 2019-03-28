@@ -15,6 +15,10 @@ headers = ['filename', 'age', 'gender']
 
 
 def calc_age(taken, dob):
+    """Function takes in the year and date and calculates the years between them (i.e. age of the person in the photo)
+       Returns years as integer"""
+
+    #
     birth = datetime.fromordinal(max(int(dob) - 366, 1))
 
     # assume the photo was taken in the middle of the year
