@@ -27,6 +27,7 @@ class AgeDataset(Dataset):
 
     def __getitem__(self, index):
 
+        # Each image is in directory images followed by names stored in imported csv file (e.g. ./images/01/filename.jpg)
         image = imageio.imread('./images/' + self.raw_data[index, 0])
 
         # gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
