@@ -2,7 +2,6 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import imageio
-import cv2
 import matplotlib.pyplot as plt
 
 class AgeDataset(Dataset):
@@ -30,10 +29,6 @@ class AgeDataset(Dataset):
         # Each image is in directory images followed by names stored in imported csv file (e.g. ./images/01/filename.jpg)
         image = imageio.imread('./images/' + self.raw_data[index, 0])
 
-        # gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        # print(gray_image)
-        # imgplot = plt.imshow(gray_image)
-        # plt.show()
         new_tensor = torch.tensor(image)
 
         return new_tensor, self.y_data[index]
