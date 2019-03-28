@@ -4,7 +4,7 @@
 from flask import Flask, request, render_template
 
 # Import modules for functionality
-import predict
+from predict import predict_age
 import json
 
 # Create a Flask app to run as a web server to host local API
@@ -15,7 +15,7 @@ app = Flask(__name__)
 @app.route("/determine_age")
 def determine_age():
 
-    predicted_age = predict.predict_age('EXPORTED MODEL PATH', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
+    predicted_age = predict_age('latest_age_cnn_model', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
 
     # Save scan result as a dictionary
     age_data = {"predicted_age": predicted_age}

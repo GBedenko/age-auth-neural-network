@@ -11,7 +11,7 @@ class AgeDataset(Dataset):
     # Initialize your data, download, etc.
     def __init__(self, training=True):
 
-        datafile = './training_data_70k.csv' if(training) else './testing_data_30k.csv'
+        datafile = './datasets/training_data_70k.csv' if(training) else './datasets/testing_data_30k.csv'
 
         # Import the data from file and split into inputs (the image filenames) and outputs (the age of person in the image)
         raw_data = np.loadtxt(datafile, delimiter=',', dtype=np.unicode)

@@ -2,3 +2,5 @@
 /var
 /images
 latest_age_cnn_model
+/results/loss_function_results.csv
+/results/accuracy_results.csv

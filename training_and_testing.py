@@ -8,8 +8,8 @@ from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
 import imageio
 import os
-from AgeDataset import AgeDataset
-from AgeCNN import AgeCNN
+from entities.AgeDataset import AgeDataset
+from entities.AgeCNN import AgeCNN
 from argparse import ArgumentParser
 import csv
 
@@ -80,7 +80,7 @@ def train(epoch, model, training_data_loader, optimizer):
                 100. * batch_idx / len(training_data_loader), loss.item()))
 
             # Save loss function result for this batch to csv file
-            with open('loss_function_results.csv', 'a') as csvfile:
+            with open('./results/loss_function_results.csv', 'a') as csvfile:
                 filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 filewriter.writerow([loss.item()])
 
@@ -123,7 +123,7 @@ def test(model, testing_data_loader):
         100. * correct / len(testing_data_loader.dataset)))
 
     # Save average loss and accuracy percentage for this epoch to csv file
-    with open('accuracy_results.csv', 'a') as csvfile:
+    with open('./results/accuracy_results.csv', 'a') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         filewriter.writerow([test_loss, 100. * correct / len(testing_data_loader.dataset)])
 
