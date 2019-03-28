@@ -1,33 +1,36 @@
-#!/usr/bin/env python
-
-# Import argparse so that file paths can be entered on commandline
+from AgeCNN import AgeCNN
+import torch
 from argparse import ArgumentParser
+import imageio
 
-# Import Tensorflow to understand model path
-import tensorflow as tf
-from tensorflow.contrib import predictor
+def predict_age(model_filename, image_filename):
 
-# Import scipy to convert input image to array
-from scipy.misc import imread
+    # Create instance of the model
+    model = AgeCNN()
 
-def predict_age(model_dir, image_path):
-    """Function which takes the directory of the CNN model and an image as input
-       Creates a tensorflow prediction function based on the latest model
-       Runs the function for the provided image and returns the predicted age of the person in the photo"""
-
-    # Constructs a tensorflow predictor from the input model
-    prediction_fn = predictor.from_saved_model(export_dir=model_dir, signature_def_key='serving_default')
-
-    # Read input image as an array using scipy
-    image = imread(image_path)
-
-    # Use the tensorflow function created from the cnn model with the input image
-    output = prediction_fn({
-        'image': [image]
-    })
+    # Load instance with latest saved model
+    model.load_state_dict(torch.load(model_filename))
     
-    # From tensorflow functions's output, return the age of the person in the image
-    return output["age_class"][0]
+    # Put model in testing mode since we are making a prediction
+    model.eval()
+
+    # Load the image from the input path
+    image = imageio.imread(image_filename)
+
+    # Convert image to pytorch tensor object
+    new_tensor = torch.tensor(image)
+
+    # Model requires a 4d array (as first one is usually batch size), so unsqueeze adds another of size 1
+    new_tensor = new_tensor.unsqueeze(0)
+
+    # Input the image through the model
+    output = model(new_tensor)
+
+    # Retrieve in the index of the highest value in the output layer of the model, which is our resulting age
+    pred = output.data.max(1, keepdim=True)[1]
+    
+    # Return only the integer indexed
+    return(pred[0][0].item())
 
 
 # If called on the command line requires args for model and image
@@ -36,12 +39,12 @@ if __name__ == "__main__":
 
     # Take user parameters of model directory and image path
     parser = ArgumentParser(add_help=True)
-    parser.add_argument('--model-dir', required=True)
-    parser.add_argument('--image-path', required=True)
+    parser.add_argument('--model-filename', required=True)
+    parser.add_argument('--image-filename', required=True)
 
     # Parse to global args object used in this file
     args = parser.parse_args()
 
     # Call predict_age with inputs and only print the result if running this file directly
-    print(predict_age(args.model_dir, args.image_path))
+    print(predict_age(args.model_filename, args.image_filename))
 
