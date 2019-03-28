@@ -11,6 +11,7 @@ import os
 from AgeDataset import AgeDataset
 from AgeCNN import AgeCNN
 from argparse import ArgumentParser
+import csv
 
 def setup():
 
@@ -78,7 +79,14 @@ def train(epoch, model, training_data_loader, optimizer):
                 epoch, batch_idx * len(data), len(training_data_loader.dataset),
                 100. * batch_idx / len(training_data_loader), loss.item()))
 
+            # Save loss function result for this batch to csv file
+            with open('loss_function_results.csv', 'a') as csvfile:
+                filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                filewriter.writerow([loss.item()])
+
+    # Save latest trained model after the epoch
     torch.save(model.state_dict(), 'latest_age_cnn_model')
+
 
 # Function to just run the tests on a trained network (used in isolation with a training dataset)
 def test(model, testing_data_loader):
@@ -114,6 +122,10 @@ def test(model, testing_data_loader):
         test_loss, correct, len(testing_data_loader.dataset),
         100. * correct / len(testing_data_loader.dataset)))
 
+    # Save average loss and accuracy percentage for this epoch to csv file
+    with open('accuracy_results.csv', 'a') as csvfile:
+        filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        filewriter.writerow([test_loss, 100. * correct / len(testing_data_loader.dataset)])
 
 # Function to call the training and testing of the network, always using the latest model
 def train_and_test_network(epochs):
