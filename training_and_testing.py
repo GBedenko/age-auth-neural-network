@@ -125,7 +125,7 @@ def test(model, testing_data_loader):
     # Save average loss and accuracy percentage for this epoch to csv file
     with open('./results/accuracy_results.csv', 'a') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        filewriter.writerow([test_loss, 100. * correct / len(testing_data_loader.dataset)])
+        filewriter.writerow([float(100. * correct / len(testing_data_loader.dataset))])
 
 # Function to call the training and testing of the network, always using the latest model
 def train_and_test_network(epochs):
