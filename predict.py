@@ -1,4 +1,5 @@
-from AgeCNN import AgeCNN
+import entities
+from entities.AgeCNN import AgeCNN
 import torch
 from argparse import ArgumentParser
 import imageio
