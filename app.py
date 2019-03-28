@@ -1,6 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Import Flask to host server
+import flask
 from flask import Flask, request, render_template
 
 # Import modules for functionality

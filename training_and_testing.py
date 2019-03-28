@@ -8,6 +8,7 @@ from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
 import imageio
 import os
+import entities
 from entities.AgeDataset import AgeDataset
 from entities.AgeCNN import AgeCNN
 from argparse import ArgumentParser
