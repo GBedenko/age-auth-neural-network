@@ -1,18 +1,21 @@
+import csv
+import os
+from argparse import ArgumentParser
+
+import imageio
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
-from torch.utils.data import Dataset, DataLoader
-import matplotlib.pyplot as plt
-import imageio
-import os
+from torch.utils.data import DataLoader, Dataset
+
 import entities
-from entities.AgeDataset import AgeDataset
+import matplotlib.pyplot as plt
 from entities.AgeCNN import AgeCNN
-from argparse import ArgumentParser
-import csv
+from entities.AgeDataset import AgeDataset
+
 
 def setup():
 
@@ -44,6 +47,7 @@ def setup():
     # Optimizer which calculates the current gradient, only need to provide learning rate (SGD was used but other available which could be better)
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
 
+    # Return pytorch data loaders and model with gradient function to be used for training/testing purposes
     return training_data_loader, testing_data_loader, model, optimizer
 
 
@@ -76,6 +80,7 @@ def train(epoch, model, training_data_loader, optimizer):
         # Whenever batch index multiple of 10 (i.e. multiple of 640 because batch size is 64), print progress in this epoch, 
         # and print the current loss function result
         if batch_idx % 10 == 0:
+            # Output to console for update on training after every 640 images processed (10 batches)
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(training_data_loader.dataset),
                 100. * batch_idx / len(training_data_loader), loss.item()))
@@ -92,7 +97,7 @@ def train(epoch, model, training_data_loader, optimizer):
 # Function to just run the tests on a trained network (used in isolation with a training dataset)
 def test(model, testing_data_loader):
 
-    model.eval() # Sets model to test mode, lets pytorch knkow the model is being used to predict now, not to train
+    model.eval() # Sets model to test mode, lets pytorch know the model is being used to predict now, not to train
 
     test_loss = 0 # Will be populated with the total loss found for every test data matrix
     correct = 0 # Increases every time the highest output node matches the actual value
@@ -131,6 +136,9 @@ def test(model, testing_data_loader):
 # Function to call the training and testing of the network, always using the latest model
 def train_and_test_network(epochs):
 
+    # Previous epochs done
+    previous_epochs = sum(1 for line in open('./results/accuracy_results.csv'))
+
     # Retrieve the datasets for pytorch and model
     training_data_loader, testing_data_loader, model, optimizer = setup()
     
@@ -142,7 +150,7 @@ def train_and_test_network(epochs):
             model.load_state_dict(torch.load('latest_age_cnn_model')) 
 
         # Train the retrieved model
-        train(epoch, model, training_data_loader, optimizer)
+        train(previous_epochs + epoch, model, training_data_loader, optimizer)
 
         # Retrieve latest model if available
         if os.path.isfile('latest_age_cnn_model'):

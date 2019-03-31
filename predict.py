@@ -5,7 +5,13 @@ from argparse import ArgumentParser
 import imageio
 
 def predict_age(model_filename, image_filename):
-
+    """
+    Providing the model path and image path will use that CNN model and predict the age of the
+    person in the photo.
+    Input: model filepath, image filepath
+    Output: Predicted age as an int
+    """
+    
     # Create instance of the model
     model = AgeCNN()
 

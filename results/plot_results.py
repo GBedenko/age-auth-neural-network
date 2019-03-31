@@ -4,6 +4,10 @@ import csv
 
 
 def plot_loss_function_results():
+    """
+    Plots the results from the loss function results file to a graph
+    No inputs or outputs, just opens the plotted graph from matplotlib
+    """
 
     x = []
     y = []
@@ -24,6 +28,10 @@ def plot_loss_function_results():
 
 
 def accuracy_results():
+    """
+    Plots the results from the accuracy results file to a graph
+    No inputs or outputs, just opens the plotted graph from matplotlib
+    """
 
     x = []
     y = []
@@ -42,4 +50,6 @@ def accuracy_results():
     plt.legend()
     plt.show()
 
-plot_loss_function_results()
+if __name__=="__main__":
+    plot_loss_function_results()
+    

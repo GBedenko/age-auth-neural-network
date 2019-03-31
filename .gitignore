@@ -1,11 +1,13 @@
-/data
-/var
 /images
+/__pycache__
 latest_age_cnn_model
+
 /results/loss_function_results.csv
 /results/accuracy_results.csv
+
 /entities/AgeCNN.pyc
 /entities/__init__.pyc
-predict.pyc
-/__pycache__
 /entities/__pycache__
+
+predict.pyc
+

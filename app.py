@@ -16,6 +16,7 @@ app = Flask(__name__)
 @app.route("/determine_age")
 def determine_age():
 
+    # Use the exported CNN model and the image captured by the other API
     predicted_age = predict_age('latest_age_cnn_model', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
 
     # Save scan result as a dictionary
@@ -29,6 +30,7 @@ def determine_age():
 
 
 if __name__ == "__main__":
+    
     # Run app on localhost:8081 for testing purposes
     app.run(debug=True, host="localhost", port=8081)
 
