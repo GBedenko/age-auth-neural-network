@@ -24,10 +24,10 @@ def plot_loss_function_results():
     plt.ylabel('Loss function output')
     plt.title('Loss Function Results over time')
     plt.legend()
-    plt.show()
+    plt.savefig('loss_function_results.png')
 
 
-def accuracy_results():
+def plot_accuracy_results():
     """
     Plots the results from the accuracy results file to a graph
     No inputs or outputs, just opens the plotted graph from matplotlib
@@ -41,15 +41,15 @@ def accuracy_results():
         plots = csv.reader(csvfile, delimiter=',')
 
         for row in plots:
-            x.append(float(row[1]))
+            x.append(float(row[0]))
 
     plt.plot(x, label='Loaded from accuracy_results.csv')
     plt.xlabel('Number of Epochs')
     plt.ylabel('Testing Accuracy Percentage')
     plt.title('Testing Accuracy over number of Epochs')
     plt.legend()
-    plt.show()
+    plt.savefig('accuracy_results.png')
 
 if __name__=="__main__":
-    plot_loss_function_results()
+    plot_accuracy_results()
     
