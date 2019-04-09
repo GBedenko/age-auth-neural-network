@@ -142,8 +142,11 @@ def test(model, testing_data_loader):
 # Function to call the training and testing of the network, always using the latest model
 def train_and_test_network(epochs):
 
-    # Previous epochs done
-    previous_epochs = sum(1 for line in open('./results/accuracy_results.csv'))
+    # Retrieve previous epochs done
+    if os.path.isfile('./results/accuracy_results.csv'):
+        previous_epochs = sum(1 for line in open('./results/accuracy_results.csv'))
+    else:
+        previous_epochs = 0
 
     # Retrieve the datasets for pytorch and model
     training_data_loader, testing_data_loader, model, optimizer = setup()
