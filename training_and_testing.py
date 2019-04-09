@@ -117,15 +117,21 @@ def test(model, testing_data_loader):
         # get the index of the max log-probability (node with highest value in output layer after running through model)
         pred = output.data.max(1, keepdim=True)[1]
 
-        # If max output node is same as actual value then increment correct by 1
-        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
+        # For each prediction in this batch, retrieve the prediction and actual ages
+        for i in range(len(pred)):
+            predicted_age = pred[i][0].item()
+            actual_age = target.data.view_as(pred)[i][0].item()
+
+            # If prediction was within 5 years of actual age, determine as correct - accuracy not using exact only
+            if (predicted_age - 5) < actual_age < (predicted_age + 5):
+                correct += 1
 
     # Test loss becomes average, uses how many were tested
     test_loss /= len(testing_data_loader.dataset)
 
     # Output the accuracy of the results on all test data
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-        test_loss, correct, len(testing_data_loader.dataset),
+    print('\nTest Set Accuracy: {}/{} ({:.0f}%)\n'.format(
+        correct, len(testing_data_loader.dataset),
         100. * correct / len(testing_data_loader.dataset)))
 
     # Save average loss and accuracy percentage for this epoch to csv file
