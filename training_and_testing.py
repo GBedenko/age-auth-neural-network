@@ -41,8 +41,8 @@ def setup():
     model = AgeCNN()
 
     # If an existing model available, load it
-    if(os.path.isfile('latest_age_cnn_model')):
-        model.load_state_dict(torch.load('latest_age_cnn_model'))
+    if(os.path.isfile('latest_age_cnn_model.pth')):
+        model.load_state_dict(torch.load('latest_age_cnn_model.pth'))
     
     # Optimizer which calculates the current gradient, only need to provide learning rate (SGD was used but other available which could be better)
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
@@ -91,7 +91,8 @@ def train(epoch, model, training_data_loader, optimizer):
                 filewriter.writerow([loss.item()])
 
     # Save latest trained model after the epoch
-    torch.save(model.state_dict(), 'latest_age_cnn_model')
+    torch.save(model.state_dict(), 'latest_age_cnn_model.pth')
+    torch.save(model, 'latest_age_cnn_model_with_graph.pth')
 
 
 # Function to just run the tests on a trained network (used in isolation with a training dataset)
@@ -155,15 +156,15 @@ def train_and_test_network(epochs):
     for epoch in range(epochs):
 
         # Retrieve latest model if available
-        if os.path.isfile('latest_age_cnn_model'):
-            model.load_state_dict(torch.load('latest_age_cnn_model')) 
+        if os.path.isfile('latest_age_cnn_model.pth'):
+            model.load_state_dict(torch.load('latest_age_cnn_model.pth')) 
 
         # Train the retrieved model
         train(previous_epochs + epoch, model, training_data_loader, optimizer)
 
         # Retrieve latest model if available
-        if os.path.isfile('latest_age_cnn_model'):
-            model.load_state_dict(torch.load('latest_age_cnn_model')) 
+        if os.path.isfile('latest_age_cnn_model.pth'):
+            model.load_state_dict(torch.load('latest_age_cnn_model.pth')) 
 
         # Test the most recent retrieved model
         test(model, testing_data_loader)
