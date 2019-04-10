@@ -1,6 +1,7 @@
 /images
 /__pycache__
 latest_age_cnn_model.pth
+latest_age_cnn_model_with_graph.pth
 
 /results/loss_function_results.csv
 /results/accuracy_results.csv
