@@ -1,5 +1,8 @@
 /images
 /__pycache__
+initial_age_cnn_model.pth
+initial_age_cnn_model_with_graph.pth
+
 latest_age_cnn_model.pth
 latest_age_cnn_model_with_graph.pth
 

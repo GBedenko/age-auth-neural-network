@@ -14,16 +14,17 @@ class AgeCNN(nn.Module):
         super(AgeCNN, self).__init__()
 
         # Convolutional Layers apply a convole filter - output node size can be adjusted to hopefully help change accuracy
-        self.conv1 = nn.Conv2d(3, 10, kernel_size=5) # Input of 3 for RGB images
-        self.conv2 = nn.Conv2d(10, 20, kernel_size=5) # Another CNN layer to hopefully improve accuracy
-        self.conv3 = nn.Conv2d(20, 40, kernel_size=5) # Another CNN layer to hopefully improve accuracy
-        self.conv4 = nn.Conv2d(40, 80, kernel_size=5) # Another CNN layer to hopefully improve accuracy
+        self.conv1 = nn.Conv2d(3, 20, kernel_size=5) # Input of 3 for RGB images
+        self.conv2 = nn.Conv2d(20, 40, kernel_size=5) # Another CNN layer to hopefully improve accuracy
+        self.conv3 = nn.Conv2d(40, 80, kernel_size=5) # Another CNN layer to hopefully improve accuracy
+        self.conv4 = nn.Conv2d(80, 160, kernel_size=5) # Another CNN layer to hopefully improve accuracy
+        self.conv5 = nn.Conv2d(160, 320, kernel_size=5) # Another CNN layer to hopefully improve accuracy
 
         # Max pooling layer reduces every 2x2 pixel grid to the highest value in each grid for the output
         self.mp = nn.MaxPool2d(2) # Max pooling of size 2x2 pixel grids
 
         # Linear function to define how many output nodes there is in the final layer - using 100 for ages, could be reduced
-        self.fc = nn.Linear(8000, 100) # Linear function to final output layer for age range
+        self.fc = nn.Linear(2880, 100) # Linear function to final output layer for age range
         # Input to linear function is found from matrix mismatch, will change everytime new layers added
 
     def forward(self, x):
@@ -39,6 +40,7 @@ class AgeCNN(nn.Module):
         x = F.relu(self.mp(self.conv2(x)))
         x = F.relu(self.mp(self.conv3(x)))
         x = F.relu(self.mp(self.conv4(x)))
+        x = F.relu(self.mp(self.conv5(x)))
         
         x = x.view(x.size(0), -1)  # flatten the tensor
 
