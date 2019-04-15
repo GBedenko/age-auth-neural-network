@@ -17,7 +17,7 @@ app = Flask(__name__)
 def determine_age():
 
     # Use the exported CNN model and the image captured by the other API
-    predicted_age = predict_age('latest_age_cnn_model', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
+    predicted_age = predict_age('latest_age_cnn_model.pth', '../303COM-Age-Verification-via-Facial-Recognition-App/photo.png')
 
     # Save scan result as a dictionary
     age_data = {"predicted_age": predicted_age}
