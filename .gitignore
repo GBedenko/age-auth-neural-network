@@ -6,9 +6,6 @@ initial_age_cnn_model_with_graph.pth
 latest_age_cnn_model.pth
 latest_age_cnn_model_with_graph.pth
 
-/results/loss_function_results.csv
-/results/accuracy_results.csv
-
 /entities/AgeCNN.pyc
 /entities/__init__.pyc
 /entities/__pycache__
