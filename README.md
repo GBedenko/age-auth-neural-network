@@ -10,6 +10,10 @@ Neural network is trained using this dataset: https://data.vision.ee.ethz.ch/cvl
 ```console
 sudo apt install python3
 
+sudo apt install python3-pip
+
+sudo pip3 install -r requirements.txt
+
 sudo apt install git
 ```
 
